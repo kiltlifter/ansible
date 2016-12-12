@@ -1,0 +1,6 @@
+---
+- name: Installing and configuring bind for Debian 8 based systems
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - bind9
+    - dnsutils

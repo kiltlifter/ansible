@@ -1,0 +1,10 @@
+---
+- name: Install and configure clamav for Debian 8 based systems
+  apt: name={{ item }} state=latest update_cache=yes
+  with_items:
+    - clamav
+    - clamav-base
+    - clamav-freshclam
+
+- name: Use a custom clamav template
+  template: src=freshclam.conf.j2 dest=/etc/clamav/freshclam.conf owner=clamav group=adm mode=0444

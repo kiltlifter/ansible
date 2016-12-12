@@ -1,0 +1,6 @@
+---
+- name: Installing and configuring bind for RedHat 7 based systems
+  yum: name={{ item }} state=latest
+  with_items:
+    - bind
+    - bind-utils

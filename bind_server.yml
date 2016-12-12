@@ -1,0 +1,10 @@
+---
+- hosts: bind_server
+  remote_user: automation
+  become: yes
+  become_user: root
+  become_method: sudo
+
+  roles:
+    - bind
+    - clamav
