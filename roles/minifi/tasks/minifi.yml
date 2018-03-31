@@ -1,0 +1,69 @@
+---
+
+- name: Create minifi user and group
+  user:
+    name: "{{ minifi.user }}"
+    createhome: no
+    comment: "Created for Apache MiniFi"
+    shell: /bin/bash
+  sudo: yes
+
+- name: Get minifi binary
+  get_url:
+    dest: /opt
+    url: "{{ download_url }}"
+    owner: "{{ minifi.user }}"
+    group: "{{ minifi.group }}"
+  register: new_archive_downloaded
+  sudo: yes
+
+- name: Minifi archive uncompressed
+  unarchive:
+    src: "/opt/minifi-{{ minifi.version }}-bin.tar.gz"
+    dest: /opt
+    copy: no
+    owner: "{{ minifi.user }}"
+    group: "{{ minifi.group }}"
+  sudo: yes
+  when: new_archive_downloaded|changed
+
+- name: Uncompressed Minifi linked to path
+  file:
+    src: "/opt/minifi-{{ minifi.version }}"
+    path: "{{ minifi.path }}"
+    state: link
+    owner: "{{ minifi.user }}"
+    group: "{{ minifi.group }}"
+  sudo: yes
+
+- name: Set Minifi files ownership
+  file:
+    path: "/opt/minifi-{{ minifi.version }}"
+    state: directory
+    owner: "{{ minifi.user }}"
+    group: "{{ minifi.group }}"
+    recurse: yes
+  changed_when: False
+  sudo: yes
+
+- name: Add systemctl script
+  template:
+    src: minifi.service.j2
+    dest: /lib/systemd/system/minifi.service
+    owner: root
+    group: root
+    mode: "0644"
+  environment:
+    MINIFI_HOME: "{{ minifi.path }}"
+  sudo: yes
+
+- name: Link systemd service
+  file:
+    src: /lib/systemd/system/minifi.service
+    path: /etc/systemd/system/minifi.service
+    state: link
+    owner: root
+    group: root
+  sudo: yes
+  notify: Stop minifi
+

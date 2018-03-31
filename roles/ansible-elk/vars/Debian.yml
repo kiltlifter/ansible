@@ -1,0 +1,17 @@
+---
+elk_common_packages:
+    - openntpd
+    - python-apt
+    - python-pycurl
+    - python-pip
+    - supervisor
+    - monit
+    - git-core
+    - apt-transport-https
+elk_java:
+  flavor: openjdk
+  oracle:
+    - oracle-java8-installer
+    - oracle-java8-set-default
+  openjdk:
+    - openjdk-8-jre-headless

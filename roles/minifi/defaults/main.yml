@@ -1,0 +1,10 @@
+---
+
+minifi:
+  version: 0.4.0
+  user: minifi
+  group: minifi
+  path: /opt/minifi
+  java_version: "openjdk-8-jre-headless"
+
+download_url: "http://mirror.olnevhost.net/pub/apache/nifi/minifi/{{ minifi.version }}/minifi-{{ minifi.version }}-bin.tar.gz"

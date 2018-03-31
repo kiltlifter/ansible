@@ -1,0 +1,8 @@
+---
+
+- name: Java apt packages
+  apt:
+    pkg: "{{ minifi.java_version }}"
+    update_cache: yes
+    state: latest
+  sudo: yes

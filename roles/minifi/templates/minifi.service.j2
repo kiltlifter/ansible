@@ -1,0 +1,10 @@
+[Unit]
+Description= Start and stop Apache MiniFi
+
+[Service]
+Type=oneshot
+ExecStart={{ minifi.path }}/bin/minifi.sh start
+ExecStop={{ minifi.path }}/bin/minifi.sh stop
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,8 @@
+---
+
+- name: Stop minifi
+  service:
+    name: minifi
+    enabled: no
+    state: stopped
+  sudo: yes
